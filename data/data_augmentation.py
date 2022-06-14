@@ -38,3 +38,35 @@ class DataAugmentationDino:
         image = tf.image.random_hue(image, max_delta=0.1)
         return image
 
+    def _crop_resize(self, image, mode="global"):
+        scalee = self.global_crops_scale if mode == "global" else self.local_crops_scale
+        final_size = (
+            self.global_image_size if mode == "global" else self.local_image_size
+        )
+        height, width, channels = tf.shape(image)
+        scaling_hw = tf.cast(tf.concat([height, width], axis=0), tf.float32)
+        scale = tf.multiply(scalee, scaling_hw)
+        scale = (
+            tf.cast(scale[0].numpy(), tf.int32),
+            tf.cast(scale[1].numpy(), tf.int32),
+            channels,
+        )
+        image = tf.image.random_crop(value=image, size=scale)
+        image = tf.image.resize(image, final_size, method="bicubic")
+        return image
+
+    def _apply_aug(self, image, mode="global"):
+        image = self.flip_aug(image)
+        image = self._crop_resize(image, mode)
+        image = self._standardize_normalize(image)
+
+        return image
+
+    def __call__(self, image):
+        crops = []
+        crops.append(self._apply_aug(image))
+        crops.append(self._apply_aug(image))
+        for _ in range(self.local_crops_number):
+            crops.append(self._apply_aug(image, mode="local"))
+        return crops
+
