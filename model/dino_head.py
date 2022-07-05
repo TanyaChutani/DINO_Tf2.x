@@ -5,13 +5,13 @@ import tensorflow_addons as tfa
 class DinoHead(tf.keras.models.Model):
     def __init__(
         self,
-        nlayers=3,
         in_dim=768,
         out_dim=65536,
         use_bn=False,
+        norm_last_layer=True,
+        nlayers=3,
         hidden_dim=2048,
         bottleneck_dim=256,
-        norm_last_layer=True,
     ):
         super(DinoHead, self).__init__()
         self.in_dim = in_dim
@@ -31,3 +31,16 @@ class DinoHead(tf.keras.models.Model):
         if self.use_bn:
             layer.append(tf.keras.layers.BatchNormalization())
         layer.append(tfa.layers.GELU())
+        for _ in range(self.nlayers - 2):
+            layer.append(tf.keras.layers.Dense(self.hidden_dim))
+        if self.use_bn:
+            layer.append(tf.keras.layers.BatchNormalization())
+        layer.append(tfa.layers.GELU())
+        layer.append(tf.keras.layers.Dense(self.bottleneck_dim))
+        return tf.keras.Sequential(layer)
+
+    def call(self, input_tensor, training=None):
+        x = self.mlp_block(input_tensor, training)
+        x = tf.nn.l2_normalize(x.numpy(), axis=-1)
+        x = self.last_layer(x)
+        return x
