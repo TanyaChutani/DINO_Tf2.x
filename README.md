@@ -1,1 +1,1 @@
-# DINO_Tf2.x
+# Self-Supervised Vision Transformers with DINO
