@@ -11,7 +11,7 @@ class TeacherTemp(tf.keras.callbacks.Callback):
         warmup_teacher_temp_epochs=30,
     ):
         super(TeacherTemp, self).__init__()
-        self.temp = tf.Variable(temp, trainable=False, dtype=tf.float32)
+        self.temp = temp
         self.teacher_temp_schedule = tf.concat(
             (
                 tf.linspace(
@@ -22,6 +22,8 @@ class TeacherTemp(tf.keras.callbacks.Callback):
             axis=0,
         )
 
+    @tf.function
     def on_epoch_begin(self, epoch, logs={}):
+        self.temp = tf.Variable(self.temp, trainable=True, dtype=tf.float32)
         tf.keras.backend.set_value(self.temp, self.teacher_temp_schedule[epoch])
         logs["temp"] = tf.keras.backend.get_value(self.temp)
