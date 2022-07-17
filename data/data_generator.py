@@ -1,7 +1,7 @@
 import tensorflow as tf
 import os
 
-from data. data_augmentation import DataAugmentationDino
+from data.data_augmentation import DataAugmentationDino
 
 
 class DataGenerator(tf.keras.utils.Sequence):
@@ -49,7 +49,8 @@ class DataGenerator(tf.keras.utils.Sequence):
       for idx, i in enumerate(index):
         images = self._load_image(os.path.join(self.dataset_path, i), dino)
         global_images = images[:2]
-        local_images = images
+        #unable to stack varied size input in the dataset
+        local_images = images[2:]
         batch_local.append(local_images)
         batch_global.append(global_images)
       return batch_global, batch_local
