@@ -1,4 +1,5 @@
 import tensorflow as tf
+from vit_keras import vit, utils
 
 
 class MultiCropWrapper(tf.keras.layers.Layer):
@@ -35,3 +36,13 @@ class MultiCropWrapper(tf.keras.layers.Layer):
             output = tf.concat([output, _out], axis=0)
             start_idx = end_idx
         return self.head(output)
+
+    
+def load_base(image_size, include_pretrained=True):
+    model = vit.vit_b16(
+        image_size=image_size,
+        pretrained=include_pretrained,
+        pretrained_top=False,
+        include_top=False,
+    )
+    return model
