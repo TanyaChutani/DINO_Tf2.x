@@ -31,3 +31,18 @@ class Dino(tf.keras.models.Model):
                 zip(student_gradients, self.student_model.trainable_variables)
             )
             return {"loss": loss}
+
+    def test_step(self, data):
+        global_image, local_image = data
+
+        local_image = sum(local_image, ())
+        global_image = sum(global_image, ())
+        local_image = tf.stack(local_image)
+        global_image = tf.stack(global_image)
+
+        teacher_output = self.teacher_model(global_image, training=False)
+        student_output = self.student_model(local_image, training=False)
+
+        loss = tf.reduce_mean(self.dino_loss(student_output, teacher_output))
+
+        return {"loss": loss}
