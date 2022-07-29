@@ -2,10 +2,21 @@ import tensorflow as tf
 
 
 class Dino(tf.keras.models.Model):
-    def __init__(self, teacher_model, student_model):
+    def __init__(
+        self,
+        head,
+        teacher_model,
+        student_model,
+        student_weights=None,
+        teacher_weights=None,
+    ):
         super(Dino, self).__init__()
-        self.teacher_model = teacher_model
-        self.student_model = student_model
+        self.student_model = MultiCropWrapper(
+            backbone=student_model, head=head, weights=student_weights
+        )
+        self.teacher_model = MultiCropWrapper(
+            backbone=teacher_model, head=head, weights=teacher_weights
+        )
 
     def compile(self, optimizer, dino_loss):
         super(Dino, self).compile()
@@ -46,3 +57,6 @@ class Dino(tf.keras.models.Model):
         loss = tf.reduce_mean(self.dino_loss(student_output, teacher_output))
 
         return {"loss": loss}
+
+    def call(self, image):
+        output = self.teacher_model(image, training=False)
