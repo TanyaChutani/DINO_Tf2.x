@@ -3,10 +3,16 @@ from vit_keras import vit, utils
 
 
 class MultiCropWrapper(tf.keras.layers.Layer):
-    def __init__(self, backbone, head):
+    def __init__(self, backbone, head, weights=None):
         super(MultiCropWrapper, self).__init__()
         self.head = head
         self.backbone = backbone
+    if weights:
+      try:
+          print('Restoring model weights from: ', weights)
+          self.load_weights(weights)
+      except Exception:
+          raise ValueError
 
     @staticmethod
     def unique_consecutive(x):
