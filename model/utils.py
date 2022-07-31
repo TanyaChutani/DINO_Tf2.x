@@ -2,7 +2,7 @@ import tensorflow as tf
 from vit_keras import vit, utils
 
 
-class MultiCropWrapper(tf.keras.layers.Layer):
+class MultiCropWrapper(tf.keras.models.Model):
     def __init__(self, backbone, head, weights=None):
         super(MultiCropWrapper, self).__init__()
         self.head = head
