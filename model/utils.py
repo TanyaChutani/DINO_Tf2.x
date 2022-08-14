@@ -7,12 +7,12 @@ class MultiCropWrapper(tf.keras.models.Model):
         super(MultiCropWrapper, self).__init__()
         self.head = head
         self.backbone = backbone
-    if weights:
-      try:
-          print('Restoring model weights from: ', weights)
-          self.load_weights(weights)
-      except Exception:
-          raise ValueError
+        if weights:
+            try:
+                print("Restoring model weights from: ", weights)
+                self.load_weights(weights)
+            except Exception:
+                raise ValueError
 
     @staticmethod
     def unique_consecutive(x):
@@ -43,7 +43,7 @@ class MultiCropWrapper(tf.keras.models.Model):
             start_idx = end_idx
         return self.head(output)
 
-    
+
 def load_base(image_size, include_pretrained=True):
     model = vit.vit_b16(
         image_size=image_size,

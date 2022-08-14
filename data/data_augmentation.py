@@ -69,4 +69,3 @@ class DataAugmentationDino:
         for _ in range(self.local_crops_number):
             crops.append(self._apply_aug(image, mode="local"))
         return crops
-

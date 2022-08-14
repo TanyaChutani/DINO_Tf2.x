@@ -1,10 +1,16 @@
 import tensorflow as tf
 from loss.utils import TeacherTemp
 
+
 class DinoLoss(tf.keras.losses.Loss):
     def __init__(
         self,
+        nepochs=100,
+        out_dim=65536,
         ncrops=2,
+        warmup_teacher_temp=0.04,
+        teacher_temp=0.04,
+        warmup_teacher_temp_epochs=30,
         student_temp=0.1,
         center_momentum=0.9,
     ):
@@ -13,16 +19,28 @@ class DinoLoss(tf.keras.losses.Loss):
         self.student_temp = student_temp
         self.center_momentum = center_momentum
 
+        self.teacher_temp_schedule = tf.concat(
+            (
+                tf.linspace(
+                    warmup_teacher_temp, teacher_temp, warmup_teacher_temp_epochs
+                ),
+                tf.ones((nepochs - warmup_teacher_temp_epochs)) * teacher_temp,
+            ),
+            axis=0,
+        )
+
     def update_center(self, teacher_output):
         batch_center = tf.math.reduce_sum(teacher_output, axis=0)
-        batch_center = batch_center / len(teacher_output)
-
+        batch_center = batch_center / tf.cast(len(teacher_output), tf.float32)
         self.center = tf.stop_gradient(
             self.center * self.center_momentum
             + batch_center * (1 - self.center_momentum)
         )
 
     def call(self, student_output, teacher_output):
+        teacher_output = tf.cast(teacher_output, tf.float32)
+        student_output = tf.cast(student_output, tf.float32)
+
         student_out = student_output / self.student_temp
         student_out = tf.split(student_out, num_or_size_splits=self.ncrops)
 

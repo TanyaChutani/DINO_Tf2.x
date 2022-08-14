@@ -41,6 +41,6 @@ class DinoHead(tf.keras.models.Model):
 
     def call(self, input_tensor, training=None):
         x = self.mlp_block(input_tensor, training)
-        x = tf.nn.l2_normalize(x.numpy(), axis=-1)
+        x = tf.nn.l2_normalize(x, axis=-1)
         x = self.last_layer(x)
         return x

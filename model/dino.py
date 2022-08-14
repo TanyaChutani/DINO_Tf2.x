@@ -1,33 +1,27 @@
 import tensorflow as tf
 
+from loss.dino_loss import DinoLoss
+
 
 class Dino(tf.keras.models.Model):
     def __init__(
-        self,
-        head,
-        teacher_model,
-        student_model,
-        student_weights=None,
-        teacher_weights=None,
+        self, teacher_model, student_model, student_weights=None, teacher_weights=None
     ):
         super(Dino, self).__init__()
-        self.student_model = MultiCropWrapper(
-            backbone=student_model, head=head, weights=student_weights
-        )
-        self.teacher_model = MultiCropWrapper(
-            backbone=teacher_model, head=head, weights=teacher_weights
-        )
+        self.teacher_model = teacher_model
+        self.student_model = student_model
+        self.student_weights = student_weights
+        self.teacher_weights = teacher_weights
+        self.dino_loss = DinoLoss()
 
-    def compile(self, optimizer, dino_loss):
+    def compile(self, optimizer):
         super(Dino, self).compile()
         self.optimizer = optimizer
-        self.dino_loss = dino_loss
 
     def train_step(self, data):
         global_image, local_image = data
         local_image = sum(local_image, ())
         global_image = sum(global_image, ())
-
         local_image = tf.stack(local_image)
         global_image = tf.stack(global_image)
 
