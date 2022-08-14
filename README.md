@@ -20,3 +20,25 @@ gdown --id 1Lw_XPTbkoHUtWpG4U9ByYIwwmLlufvyj
 
 unzip PASCALVOC2007.zip
 ```
+
+## Train model
+```
+git clone https://github.com/TanyaChutani/DINO_Tf2.x.git
+pip install -r requirements.txt
+python main.py
+```
+
+## Results
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/000011.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/000027.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/000478.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/000495.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/000655.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/000883.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001422.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001698.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001823.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001848.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001850.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001959.png)
+
