@@ -17,7 +17,6 @@ Visualization of the generated attention maps highlight that DINO can learn clas
 ## Commands to download the data
 ```
 gdown --id 1Lw_XPTbkoHUtWpG4U9ByYIwwmLlufvyj
-
 unzip PASCALVOC2007.zip
 ```
 
@@ -37,6 +36,7 @@ python main.py
 ![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/000883.png)
 ![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001422.png)
 ![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001698.png)
+![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/1bbd765201339c53b2d84929f829def2bb4c0da1/result/001764.png)
 ![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001823.png)
 ![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001848.png)
 ![](https://github.com/TanyaChutani/DINO_Tf2.x/blob/48ec43e4bb98dad4088047df4f8af25abb4211f1/result/001850.png)
